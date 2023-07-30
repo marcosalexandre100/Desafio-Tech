@@ -9,16 +9,25 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Clientes {
+public class Cliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
-    private String name;
+    private String nome;
+
+    private String cpf;
+
     private String email;
-    private String telefone;
-    @Embedded
-    private Endereco endereco;
+
+    private int telefone;
+
+    private String logradouro;
+
+    private String cidade;
+
+    private String uf;
+
 
 }

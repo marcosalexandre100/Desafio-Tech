@@ -18,7 +18,6 @@ public class ClienteService {
 
     public Cliente salvar(Cliente cliente){
         return  clienteRepository.save(cliente);
-
     }
 
     public List<Cliente> listarTodos(){
@@ -27,7 +26,7 @@ public class ClienteService {
     public void deletar(Long id){
         clienteRepository.deleteById(id);
     }
-    public Cliente update(Long id, Cliente cliente){
+    public Cliente atualizar(Long id, Cliente cliente){
         cliente.setId(id);
         return clienteRepository.save(cliente);
     }

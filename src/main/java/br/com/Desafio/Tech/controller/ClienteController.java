@@ -26,8 +26,6 @@ public class ClienteController {
 
     private final ClienteService clienteService;
 
-
-
     @PostMapping
     public ResponseEntity<ClienteResponse> salvar(@RequestBody ClienteRequest clienteRequest) {
         Cliente cliente = clienteService.salvar(mapper.toCliente(clienteRequest));
@@ -43,9 +41,8 @@ public class ClienteController {
     }
     @PutMapping("/{id}")
     public ResponseEntity<ClienteResponse> atualizar(@PathVariable Long id, @RequestBody ClienteRequest clienteRequest){
-        Cliente cliente = mapper.toCliente(clienteRequest);
-        Cliente clienteatualizado = clienteService.update(id, cliente);
-        ClienteResponse clienteResponse = mapper.toClienteResponse(clienteatualizado);
+        Cliente cliente = clienteService.atualizar(id, mapper.toCliente(clienteRequest));
+        ClienteResponse clienteResponse = mapper.toClienteResponse(cliente);
         return ResponseEntity.status(HttpStatus.CREATED).body(clienteResponse);
     }
 

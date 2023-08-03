@@ -3,7 +3,6 @@ package br.com.Desafio.Tech.service;
 import br.com.Desafio.Tech.domain.Cliente;
 import br.com.Desafio.Tech.repository.ClienteRepository;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.lang.annotation.RequiredTypes;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,8 +25,16 @@ public class ClienteService {
     public void deletar(Long id){
         clienteRepository.deleteById(id);
     }
-    public Cliente atualizar(Long id, Cliente cliente){
-        cliente.setId(id);
-        return clienteRepository.save(cliente);
+
+    public Cliente atualizar( Cliente cliente,Long id){
+        Cliente clienteexistente = clienteRepository.findById(id).get();
+        clienteexistente.setNome(cliente.getNome());
+        clienteexistente.setEmail(cliente.getEmail());
+        clienteexistente.setTelefone(cliente.getTelefone());
+        clienteexistente.setLogradouro(cliente.getLogradouro());
+        clienteexistente.setCidade(cliente.getCidade());
+
+        return clienteRepository.save(clienteexistente);
+
     }
 }

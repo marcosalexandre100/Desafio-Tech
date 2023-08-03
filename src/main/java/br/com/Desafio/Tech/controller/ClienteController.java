@@ -21,9 +21,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ClienteController {
 
-
     private final ClienteMapper mapper;
-
     private final ClienteService clienteService;
 
     @PostMapping
@@ -40,15 +38,15 @@ public class ClienteController {
         return ResponseEntity.status(HttpStatus.OK).body(clienteResponse);
     }
     @PutMapping("/{id}")
-    public ResponseEntity<ClienteResponse> atualizar(@PathVariable Long id, @RequestBody ClienteRequest clienteRequest){
-        Cliente cliente = clienteService.atualizar(id, mapper.toCliente(clienteRequest));
+    public ResponseEntity<ClienteResponse> atualizar(@RequestBody ClienteRequest clienteRequest, @PathVariable Long id){
+        Cliente cliente = clienteService.atualizar(mapper.toCliente(clienteRequest), id);
         ClienteResponse clienteResponse = mapper.toClienteResponse(cliente);
-        return ResponseEntity.status(HttpStatus.CREATED).body(clienteResponse);
+        return ResponseEntity.status(HttpStatus.OK).body(clienteResponse);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity excluir(@PathVariable Long id){
-     clienteService.deletar(id);
-     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        clienteService.deletar(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

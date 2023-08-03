@@ -15,9 +15,11 @@ public class ClienteResponse {
 
     private String email;
 
+    private String telefone;
+
     private String logradouro;
 
     private String cidade;
 
-    private String uf;
+
 }

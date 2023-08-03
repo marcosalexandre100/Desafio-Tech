@@ -1,5 +1,6 @@
 package br.com.Desafio.Tech.domain;
 
+import br.com.Desafio.Tech.controller.clienteRequest.ClienteRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,17 +18,23 @@ public class Cliente {
 
     private String nome;
 
-    private String cpf;
-
     private String email;
 
-    private int telefone;
+    private String telefone;
 
     private String logradouro;
 
     private String cidade;
 
-    private String uf;
+
+    public Cliente(ClienteRequest clienteRequest){
+       this.nome = clienteRequest.getNome();
+       this.telefone = clienteRequest.getTelefone();
+       this.email = clienteRequest.getEmail();
+       this.logradouro = clienteRequest.getLogradouro();
+       this.cidade = clienteRequest.getCidade();
+
+    }
 
 
 }

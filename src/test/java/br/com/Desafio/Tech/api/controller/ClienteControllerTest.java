@@ -18,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -26,7 +27,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -53,7 +54,7 @@ class ClienteControllerTest {
     }
 
     @Test
-    @DisplayName("Deve devolver codigo http 200 quando informacoes estao validas")
+    @DisplayName("Deve devolver codigo http 200 quando criar um cliente")
     void cenario_01() throws Exception {
         when(clienteService.salvar(any())).thenReturn(new Cliente(request));
 
@@ -65,10 +66,11 @@ class ClienteControllerTest {
 
         assertThat(response.getStatus()).isEqualTo(HttpStatus.CREATED.value());
         assertThat(response.getContentAsString()).isEqualTo(jsonEsperado);
+
     }
 
     @Test
-    @DisplayName("Deve devolver codigo http 400 quando informacoes estao invalidas")
+    @DisplayName("Deve devolver codigo http 400 quando as informacoes estao invalidas")
     void cenario_02() throws Exception{
         var response = mockMvc.perform(post("/cliente"))
                 .andReturn().getResponse();
@@ -77,11 +79,12 @@ class ClienteControllerTest {
     }
 
     @Test
-    @DisplayName("Deve devolver o codigo http 200 quando listar todos cliente")
+    @DisplayName("Deve devolver o codigo http 200 quando listar  cliente")
     void cenario_03() throws Exception{
-        when(clienteService.listarTodos()).thenReturn(List.of(new Cliente(request)));
+        List<Cliente> list = new ArrayList<>();
 
-       var response = mockMvc.perform(get("/cliente"))
+        when(clienteService.listarTodos()).thenReturn(list);
+        var response = mockMvc.perform(get("/cliente"))
                .andReturn().getResponse();
 
         assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
@@ -99,6 +102,20 @@ class ClienteControllerTest {
         assertThat(response.getStatus()).isEqualTo(HttpStatus.NO_CONTENT.value());
     }
 
+    @Test
+    @DisplayName("Deve retornar o codigo http 201 ao atualizar")
+    void cenario_05() throws Exception{
+        when(clienteService.atualizar(any(),anyLong())).thenReturn(new Cliente(request));
+
+       var response=  this.mockMvc.perform(put("/cliente/{id}", 1L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(clienteRequestJacksonTester.write(request).getJson())).andReturn().getResponse();
+
+        var jsonEsperado = clienteResponseJacksonTester.write(responses).getJson();
+
+       assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+       assertThat(response.getContentAsString()).isEqualTo(jsonEsperado);
+    }
 
 
 }

@@ -1,7 +1,6 @@
 package br.com.Desafio.Tech.controller.clienteRequest;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
